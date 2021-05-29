@@ -6,7 +6,6 @@ use Cake\Database\Driver\Mysql;
 use Cake\Error\ExceptionRenderer;
 use Cake\Log\Engine\FileLog;
 use Cake\Mailer\Transport\MailTransport;
-use App\Model\Table;
 
 return [
     /*
@@ -223,6 +222,12 @@ return [
             'tls' => false,
             'url' => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
         ],
+        'SendgridEmail' => [
+            'className' => 'SendgridEmail.Sendgrid',
+            'api_key' => env('SENDGRID_API_KEY'),
+            "click_tracking" => true,
+            "open_tracking" => true,
+        ]
     ],
 
     /*
@@ -243,6 +248,16 @@ return [
              */
             //'charset' => 'utf-8',
             //'headerCharset' => 'utf-8',
+        ],
+        'Sendgrid' => [
+            'from' => ['app@fivetalents.software' => 'CakePHP'],
+            'transport' => 'SendgridEmail',
+        ],
+        'registration' => [
+            'subject' => 'Thank you for registering',
+            'template' => 'registration',
+            'from' => ['app@fivetalents.software' => 'CakePHP'],
+            'transport' => 'SendgridEmail',
         ],
     ],
 

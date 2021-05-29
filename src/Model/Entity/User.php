@@ -2,9 +2,9 @@
 
 namespace App\Model\Entity;
 
+use Cake\Auth\DefaultPasswordHasher;
 use Cake\I18n\FrozenTime;
 use Cake\ORM\Entity;
-use Cake\Auth\DefaultPasswordHasher;
 
 /**
  * User Entity
@@ -15,6 +15,8 @@ use Cake\Auth\DefaultPasswordHasher;
  * @property string|null $password
  * @property bool $is_admin
  * @property bool $is_active
+ * @property bool $is_email_verified
+ * @property string|null $email_verification_code
  * @property FrozenTime|null $created
  * @property FrozenTime|null $modified
  */
@@ -35,6 +37,8 @@ class User extends Entity
         'password' => true,
         'is_admin' => true,
         'is_active' => true,
+        'is_email_verified' => true,
+        'email_verification_code' => true,
         'created' => true,
         'modified' => true,
     ];

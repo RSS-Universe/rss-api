@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Test\TestCase\Model\Table;
 
 use App\Model\Table\UsersTable;
@@ -14,7 +13,7 @@ class UsersTableTest extends TestCase
     /**
      * Test subject
      *
-     * @var UsersTable
+     * @var \App\Model\Table\UsersTable
      */
     public $Users;
 

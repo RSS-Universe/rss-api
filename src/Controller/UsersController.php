@@ -4,9 +4,12 @@ namespace App\Controller;
 
 use App\Model\Entity\User;
 use App\Model\Table\UsersTable;
+use App\Service\EmailSendingService;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Datasource\ResultSetInterface;
 use Cake\Http\Response;
+use Cake\Utility\Security;
+use Exception;
 
 /**
  * Users Controller
@@ -21,7 +24,23 @@ class UsersController extends AppController
     public function initialize()
     {
         parent::initialize();
-        $this->Auth->allow(['logout', 'register']);
+        $this->Auth->allow(['logout', 'register', 'emailVerify']);
+    }
+
+    public function emailVerify(): ?Response
+    {
+        try {
+            $id = $this->getRequest()->getQuery('id', '');
+            $token = $this->getRequest()->getQuery('token', '');
+            $user = $this->Users->verifyEmailToken($id, $token);
+            $this->Flash->success('Your email has been verified. Please log in');
+            $this->Auth->setUser($user);
+            return $this->redirect($this->Auth->redirectUrl());
+        } catch (Exception $e) {
+            $this->Flash->error('Unable to verify your email: ' . $e->getMessage());
+        }
+
+        return $this->redirect('/users/login');
     }
 
     public function logout()
@@ -69,9 +88,10 @@ class UsersController extends AppController
             $user = $this->Users->patchEntity($user, $this->request->getData(), [
                 'fieldList' => ['name', 'email', 'password']
             ]);
+            $user->email_verification_code = Security::randomString(32);
             if ($this->Users->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
-
+                EmailSendingService::getInstance()->registrationEmail($user);
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
@@ -128,11 +148,17 @@ class UsersController extends AppController
         $this->ifLoggedInRedirect();
         if ($this->request->is('post')) {
             $user = $this->Auth->identify();
+
             if ($user) {
-                $this->Auth->setUser($user);
-                return $this->redirect($this->Auth->redirectUrl());
+                if ($user['is_email_verified'] !== true) {
+                    $this->Flash->error('Your email is not verified');
+                } else {
+                    $this->Auth->setUser($user);
+                    return $this->redirect($this->Auth->redirectUrl());
+                }
+            } else {
+                $this->Flash->error('Your email or password is incorrect.');
             }
-            $this->Flash->error('Your email or password is incorrect.');
         }
     }
 

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Test\Fixture;
 
 use Cake\TestSuite\Fixture\TestFixture;
@@ -22,6 +21,8 @@ class UsersFixture extends TestFixture
         'password' => ['type' => 'string', 'length' => 200, 'null' => true, 'default' => null, 'collate' => 'utf8mb4_unicode_ci', 'comment' => '', 'precision' => null, 'fixed' => null],
         'is_admin' => ['type' => 'boolean', 'length' => null, 'null' => false, 'default' => '0', 'comment' => '', 'precision' => null],
         'is_active' => ['type' => 'boolean', 'length' => null, 'null' => false, 'default' => '0', 'comment' => '', 'precision' => null],
+        'is_email_verified' => ['type' => 'boolean', 'length' => null, 'null' => false, 'default' => '0', 'comment' => '', 'precision' => null],
+        'email_verification_code' => ['type' => 'string', 'length' => 32, 'fixed' => true, 'null' => true, 'default' => null, 'collate' => 'utf8mb4_unicode_ci', 'comment' => '', 'precision' => null],
         'created' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         'modified' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         '_constraints' => [
@@ -34,7 +35,6 @@ class UsersFixture extends TestFixture
         ],
     ];
     // @codingStandardsIgnoreEnd
-
     /**
      * Init method
      *
@@ -50,8 +50,10 @@ class UsersFixture extends TestFixture
                 'password' => 'Lorem ipsum dolor sit amet',
                 'is_admin' => 1,
                 'is_active' => 1,
-                'created' => '2021-05-29 02:21:59',
-                'modified' => '2021-05-29 02:21:59',
+                'is_email_verified' => 1,
+                'email_verification_code' => 'Lorem ipsum dolor sit amet',
+                'created' => '2021-05-29 04:55:12',
+                'modified' => '2021-05-29 04:55:12',
             ],
         ];
         parent::init();

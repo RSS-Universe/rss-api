@@ -3,10 +3,12 @@
 namespace App\Model\Table;
 
 use App\Model\Entity\User;
+use Cake\Core\Exception\Exception;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\Behavior\TimestampBehavior;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\Utility\Security;
 use Cake\Validation\Validator;
 
 /**
@@ -67,7 +69,7 @@ class UsersTable extends Table
         $validator
             ->scalar('password')
             ->maxLength('password', 200)
-            ->allowEmptyString('password');
+            ->notEmptyString('password');
 
         $validator
             ->boolean('is_admin')
@@ -76,6 +78,15 @@ class UsersTable extends Table
         $validator
             ->boolean('is_active')
             ->notEmptyString('is_active');
+
+        $validator
+            ->boolean('is_email_verified')
+            ->notEmptyString('is_email_verified');
+
+        $validator
+            ->scalar('email_verification_code')
+            ->maxLength('email_verification_code', 32)
+            ->allowEmptyString('email_verification_code');
 
         return $validator;
     }
@@ -92,5 +103,24 @@ class UsersTable extends Table
         $rules->add($rules->isUnique(['email']));
 
         return $rules;
+    }
+
+    public function verifyEmailToken(string $id, string $token): User
+    {
+        $user = $this->get($id);
+
+        $decoded = Security::decrypt($token, $user->email . Security::getSalt());
+        if (!$decoded || $decoded !== $user->email_verification_code) {
+            throw new Exception('Bad Email Token');
+        }
+
+        if($user->is_email_verified) {
+            throw new Exception('Email is already verified');
+        }
+        
+        $user->is_email_verified = true;
+        $this->saveOrFail($user);
+
+        return $user;
     }
 }

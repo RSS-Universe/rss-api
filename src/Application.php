@@ -36,6 +36,7 @@ class Application extends BaseApplication
      */
     public function bootstrap()
     {
+        $this->addPlugin('SendgridEmail');
         $this->addPlugin('TypeScript');
         $this->addPlugin('Cors');
 
