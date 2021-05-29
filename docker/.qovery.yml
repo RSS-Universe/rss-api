@@ -1,0 +1,18 @@
+---
+application:
+  name: "dodge-coin-api"
+  project: "doge"
+  organization: "QoveryCommunity"
+databases:
+- type: "MYSQL"
+  name: "dogedb"
+  version: "5.7"
+- type: "REDIS"
+  name: "dogered"
+  version: "5"
+routers:
+- name: "main-dodge-coin-api"
+  routes:
+  - application_name: "dodge-coin-api"
+    paths:
+    - "/*"
