@@ -15,7 +15,10 @@
 
 namespace App\Controller;
 
+use App\Model\Entity\User;
 use Cake\Controller\Controller;
+use Cake\Event\Event;
+use Exception;
 
 /**
  * Application Controller
@@ -27,15 +30,8 @@ use Cake\Controller\Controller;
  */
 class AppController extends Controller
 {
-
     /**
-     * Initialization hook method.
-     *
-     * Use this method to add common initialization code like loading components.
-     *
-     * e.g. `$this->loadComponent('Security');`
-     *
-     * @return void
+     * @throws Exception
      */
     public function initialize()
     {
@@ -45,11 +41,32 @@ class AppController extends Controller
             'enableBeforeRedirect' => false,
         ]);
         $this->loadComponent('Flash');
+        $this->loadComponent('Security');
+        $this->loadComponent('Auth', [
+            'authenticate' => [
+                'Form' => [
+                    'fields' => [
+                        'username' => 'email',
+                        'password' => 'password'
+                    ]
+                ]
+            ],
+            'loginAction' => [
+                'controller' => 'Users',
+                'action' => 'login'
+            ],
+            'unauthorizedRedirect' => $this->referer()
+        ]);
 
-        /*
-         * Enable the following component for recommended CakePHP security settings.
-         * see https://book.cakephp.org/3/en/controllers/components/security.html
-         */
-        //$this->loadComponent('Security');
+        $this->Auth->allow(['display', 'view', 'index']);
+    }
+
+    /**
+     * @param array|User $user
+     * @return bool
+     */
+    public function isAuthorized(array $user): bool
+    {
+        return $user->is_admin;
     }
 }
