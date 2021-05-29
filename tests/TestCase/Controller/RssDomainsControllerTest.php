@@ -1,7 +1,7 @@
 <?php
+
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\RssDomainsController;
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
 

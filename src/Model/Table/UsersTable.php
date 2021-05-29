@@ -114,10 +114,10 @@ class UsersTable extends Table
             throw new Exception('Bad Email Token');
         }
 
-        if($user->is_email_verified) {
+        if ($user->is_email_verified) {
             throw new Exception('Email is already verified');
         }
-        
+
         $user->is_email_verified = true;
         $this->saveOrFail($user);
 

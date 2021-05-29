@@ -2,21 +2,25 @@
 
 namespace App\Controller;
 
-use App\Controller\AppController;
+use App\Model\Entity\FeedItem;
+use App\Model\Table\FeedItemsTable;
+use Cake\Datasource\Exception\RecordNotFoundException;
+use Cake\Datasource\ResultSetInterface;
+use Cake\Http\Response;
 
 /**
  * FeedItems Controller
  *
- * @property \App\Model\Table\FeedItemsTable $FeedItems
+ * @property FeedItemsTable $FeedItems
  *
- * @method \App\Model\Entity\FeedItem[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
+ * @method FeedItem[]|ResultSetInterface paginate($object = null, array $settings = [])
  */
 class FeedItemsController extends AppController
 {
     /**
      * Index method
      *
-     * @return \Cake\Http\Response|null
+     * @return Response|null
      */
     public function index()
     {
@@ -32,8 +36,8 @@ class FeedItemsController extends AppController
      * View method
      *
      * @param string|null $id Feed Item id.
-     * @return \Cake\Http\Response|null
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @return Response|null
+     * @throws RecordNotFoundException When record not found.
      */
     public function view($id = null)
     {
@@ -47,7 +51,7 @@ class FeedItemsController extends AppController
     /**
      * Add method
      *
-     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
+     * @return Response|null Redirects on successful add, renders view otherwise.
      */
     public function add()
     {
@@ -69,8 +73,8 @@ class FeedItemsController extends AppController
      * Edit method
      *
      * @param string|null $id Feed Item id.
-     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @return Response|null Redirects on successful edit, renders view otherwise.
+     * @throws RecordNotFoundException When record not found.
      */
     public function edit($id = null)
     {
@@ -94,8 +98,8 @@ class FeedItemsController extends AppController
      * Delete method
      *
      * @param string|null $id Feed Item id.
-     * @return \Cake\Http\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     * @return Response|null Redirects to index.
+     * @throws RecordNotFoundException When record not found.
      */
     public function delete($id = null)
     {

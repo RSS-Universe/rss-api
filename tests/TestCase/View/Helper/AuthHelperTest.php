@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Test\TestCase\View\Helper;
 
 use App\View\Helper\AuthHelper;
@@ -13,7 +14,7 @@ class AuthHelperTest extends TestCase
     /**
      * Test subject
      *
-     * @var \App\View\Helper\AuthHelper
+     * @var AuthHelper
      */
     public $Auth;
 
