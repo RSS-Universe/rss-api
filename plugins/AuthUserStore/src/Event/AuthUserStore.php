@@ -17,21 +17,18 @@ class AuthUserStore implements EventListenerInterface
     /**
      * @var User|null
      */
-    protected static $user;
+    protected static $user = null;
+
+    /**
+     * @var string|null
+     */
+    protected static $session_id = null;
 
     public function implementedEvents(): array
     {
         return [
-            'Authentication.afterIdentify' => 'authAfterIdentify',
             'Controller.initialize' => 'controllerInitialize',
         ];
-    }
-
-    public function authAfterIdentify(Event $event): void
-    {
-        /** @var User|null $user */
-        $user = $event->getData('identity');
-        self::$user = $user;
     }
 
     public function controllerInitialize(Event $event): void
@@ -49,6 +46,8 @@ class AuthUserStore implements EventListenerInterface
             $user = $controller->Auth->user();
             self::setUser($user);
         }
+
+        self::$session_id = $controller->getRequest()->getSession()->id();
     }
 
     public static function setUser($user): void
@@ -64,5 +63,13 @@ class AuthUserStore implements EventListenerInterface
     public static function getUser(): ?User
     {
         return self::$user;
+    }
+
+    /**
+     * @return string|null
+     */
+    public static function getSessionId(): ?string
+    {
+        return self::$session_id;
     }
 }

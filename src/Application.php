@@ -36,8 +36,8 @@ class Application extends BaseApplication
      */
     public function bootstrap()
     {
+        $this->addPlugin('UserAudit');
         $this->addPlugin('AuthUserStore');
-
         $this->addPlugin('SendgridEmail');
         $this->addPlugin('TypeScript');
         $this->addPlugin('Cors');

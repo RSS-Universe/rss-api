@@ -46,7 +46,7 @@ class DomainFeedsTable extends Table
 
         $this->addBehavior('Timestamp');
         $this->addBehavior('CounterCache', [
-            'RssDomains' => ['items_count']
+            'RssDomains' => ['feed_count']
         ]);
         $this->belongsTo('RssDomains', [
             'foreignKey' => 'rss_domain_id',
