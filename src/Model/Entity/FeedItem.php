@@ -13,6 +13,7 @@ use Cake\ORM\Entity;
  * @property string $title
  * @property string $url
  * @property string|null $description
+ * @property FrozenTime|null $published
  * @property FrozenTime|null $created
  * @property FrozenTime|null $modified
  *
@@ -34,6 +35,7 @@ class FeedItem extends Entity
         'title' => true,
         'url' => true,
         'description' => true,
+        'published' => true,
         'created' => true,
         'modified' => true,
         'domain_feed' => true,

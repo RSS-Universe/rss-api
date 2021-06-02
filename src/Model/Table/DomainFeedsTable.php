@@ -92,11 +92,6 @@ class DomainFeedsTable extends Table
             ->integer('fetch_in_minutes')
             ->notEmptyString('fetch_in_minutes');
 
-        $validator
-            ->dateTime('last_fetch')
-            ->requirePresence('last_fetch', 'create')
-            ->notEmptyDateTime('last_fetch');
-
         return $validator;
     }
 

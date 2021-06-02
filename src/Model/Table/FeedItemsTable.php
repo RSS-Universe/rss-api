@@ -44,7 +44,7 @@ class FeedItemsTable extends Table
 
         $this->addBehavior('Timestamp');
         $this->addBehavior('CounterCache', [
-            'DomainFeeds' => ['feed_count']
+            'DomainFeeds' => ['items_count']
         ]);
         $this->belongsTo('DomainFeeds', [
             'foreignKey' => 'domain_feed_id',
@@ -66,18 +66,24 @@ class FeedItemsTable extends Table
 
         $validator
             ->scalar('title')
-            ->maxLength('title', 100)
+            ->maxLength('title', 200)
             ->notEmptyString('title');
 
         $validator
             ->urlWithProtocol('url')
-            ->maxLength('url', 200)
+            ->maxLength('url', 255)
             ->notEmptyString('url')
             ->add('url', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
 
         $validator
             ->scalar('description')
             ->allowEmptyString('description');
+
+        $validator
+            ->dateTime('published')
+            ->requirePresence('published', 'create')
+            ->notEmptyDateTime('published');
+
 
         return $validator;
     }
