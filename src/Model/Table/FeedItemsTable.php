@@ -5,6 +5,7 @@ namespace App\Model\Table;
 use App\Model\Entity\FeedItem;
 use Cake\Datasource\EntityInterface;
 use Cake\ORM\Association\BelongsTo;
+use Cake\ORM\Association\BelongsToMany;
 use Cake\ORM\Behavior\TimestampBehavior;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -14,6 +15,8 @@ use Cake\Validation\Validator;
  * FeedItems Model
  *
  * @property DomainFeedsTable&BelongsTo $DomainFeeds
+ * @property CreatorsTable&BelongsTo $Creators
+ * @property CategoriesTable&BelongsToMany $Categories
  *
  * @method FeedItem get($primaryKey, $options = [])
  * @method FeedItem newEntity($data = null, array $options = [])
@@ -50,6 +53,14 @@ class FeedItemsTable extends Table
             'foreignKey' => 'domain_feed_id',
             'joinType' => 'INNER',
         ]);
+        $this->belongsTo('Creators', [
+            'foreignKey' => 'creator_id',
+        ]);
+        $this->belongsToMany('Categories', [
+            'foreignKey' => 'feed_item_id',
+            'targetForeignKey' => 'category_id',
+            'joinTable' => 'feed_items_categories',
+        ]);
     }
 
     /**
@@ -84,7 +95,6 @@ class FeedItemsTable extends Table
             ->requirePresence('published', 'create')
             ->notEmptyDateTime('published');
 
-
         return $validator;
     }
 
@@ -99,6 +109,7 @@ class FeedItemsTable extends Table
     {
         $rules->add($rules->isUnique(['url']));
         $rules->add($rules->existsIn(['domain_feed_id'], 'DomainFeeds'));
+        $rules->add($rules->existsIn(['creator_id'], 'Creators'));
 
         return $rules;
     }

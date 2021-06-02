@@ -10,14 +10,17 @@ use Cake\ORM\Entity;
  *
  * @property string $id
  * @property string $domain_feed_id
+ * @property string|null $creator_id
  * @property string $title
  * @property string $url
  * @property string|null $description
- * @property FrozenTime|null $published
+ * @property FrozenTime $published
  * @property FrozenTime|null $created
  * @property FrozenTime|null $modified
  *
  * @property DomainFeed $domain_feed
+ * @property Creator $creator
+ * @property Category[] $categories
  */
 class FeedItem extends Entity
 {
@@ -32,6 +35,7 @@ class FeedItem extends Entity
      */
     protected $_accessible = [
         'domain_feed_id' => true,
+        'creator_id' => true,
         'title' => true,
         'url' => true,
         'description' => true,
@@ -39,5 +43,7 @@ class FeedItem extends Entity
         'created' => true,
         'modified' => true,
         'domain_feed' => true,
+        'creator' => true,
+        'categories' => true,
     ];
 }

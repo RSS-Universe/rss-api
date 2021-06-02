@@ -26,6 +26,8 @@ class FeedItemsTableTest extends TestCase
     public $fixtures = [
         'app.FeedItems',
         'app.DomainFeeds',
+        'app.Creators',
+        'app.Categories',
     ];
 
     /**

@@ -2,21 +2,21 @@
 
 namespace App\Test\TestCase\Model\Table;
 
-use App\Model\Table\UsersTable;
+use App\Model\Table\CreatorsTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
 
 /**
- * App\Model\Table\UsersTable Test Case
+ * App\Model\Table\CreatorsTable Test Case
  */
-class UsersTableTest extends TestCase
+class CreatorsTableTest extends TestCase
 {
     /**
      * Test subject
      *
-     * @var UsersTable
+     * @var CreatorsTable
      */
-    public $Users;
+    public $Creators;
 
     /**
      * Fixtures
@@ -24,8 +24,8 @@ class UsersTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.Users',
-        'app.AuditLogs',
+        'app.Creators',
+        'app.FeedItems',
     ];
 
     /**
@@ -36,8 +36,8 @@ class UsersTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::getTableLocator()->exists('Users') ? [] : ['className' => UsersTable::class];
-        $this->Users = TableRegistry::getTableLocator()->get('Users', $config);
+        $config = TableRegistry::getTableLocator()->exists('Creators') ? [] : ['className' => CreatorsTable::class];
+        $this->Creators = TableRegistry::getTableLocator()->get('Creators', $config);
     }
 
     /**
@@ -47,7 +47,7 @@ class UsersTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Users);
+        unset($this->Creators);
 
         parent::tearDown();
     }

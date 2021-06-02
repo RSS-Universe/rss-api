@@ -54,8 +54,8 @@ class UsersFixture extends TestFixture
                 'is_active' => 1,
                 'is_email_verified' => 1,
                 'email_verification_code' => 'Lorem ipsum dolor sit amet',
-                'created' => '2021-05-29 04:55:12',
-                'modified' => '2021-05-29 04:55:12',
+                'created' => '2021-06-02 05:51:22',
+                'modified' => '2021-06-02 05:51:22',
             ],
         ];
         parent::init();

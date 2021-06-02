@@ -1,23 +1,22 @@
 <?php
+
 namespace App\Model\Entity;
 
 use Cake\I18n\FrozenTime;
 use Cake\ORM\Entity;
 
 /**
- * RssDomain Entity
+ * Creator Entity
  *
  * @property string $id
  * @property string $name
- * @property string $url
- * @property string|null $description
- * @property int $feed_count
+ * @property string $slug
  * @property FrozenTime|null $created
  * @property FrozenTime|null $modified
  *
- * @property DomainFeed[] $domain_feeds
+ * @property FeedItem[] $feed_items
  */
-class RssDomain extends Entity
+class Creator extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -30,11 +29,9 @@ class RssDomain extends Entity
      */
     protected $_accessible = [
         'name' => true,
-        'url' => true,
-        'description' => true,
-        'feed_count' => true,
+        'slug' => true,
         'created' => true,
         'modified' => true,
-        'domain_feeds' => true,
+        'feed_items' => true,
     ];
 }

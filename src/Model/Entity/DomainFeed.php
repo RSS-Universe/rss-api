@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Model\Entity;
 
 use Cake\I18n\FrozenTime;
@@ -15,7 +14,7 @@ use Cake\ORM\Entity;
  * @property string|null $description
  * @property int $items_count
  * @property int $fetch_in_minutes
- * @property FrozenTime $last_fetch
+ * @property FrozenTime|null $last_fetch
  * @property FrozenTime|null $created
  * @property FrozenTime|null $modified
  *
