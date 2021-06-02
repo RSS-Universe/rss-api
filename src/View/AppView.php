@@ -14,7 +14,9 @@
 
 namespace App\View;
 
-use App\View\Helper\AuthHelper;
+use App\View\Helper;
+use BootstrapUI\View\Helper as BootstrapUIHelper;
+use BootstrapUI\View\UIViewTrait;
 use Cake\View\View;
 
 /**
@@ -24,10 +26,18 @@ use Cake\View\View;
  *
  * @link https://book.cakephp.org/3/en/views.html#the-app-view
  *
- * @property AuthHelper $Auth
+ * @property Helper\AuthHelper $Auth
+ * @property Helper\NavLinksHelper $NavLinks
+ *
+ * @property BootstrapUIHelper\HtmlHelper $Html
+ * @property BootstrapUIHelper\FormHelper $Form
+ * @property BootstrapUIHelper\FlashHelper $Flash
+ * @property BootstrapUIHelper\PaginatorHelper $Paginator
+ * @property BootstrapUIHelper\BreadcrumbsHelper $Breadcrumbs
  */
 class AppView extends View
 {
+    use UIViewTrait;
 
     /**
      * Initialization hook method.
@@ -40,6 +50,10 @@ class AppView extends View
      */
     public function initialize()
     {
+        $this->initializeUI([
+            'layout' => 'bootstrap'
+        ]);
         $this->loadHelper('Auth');
+        $this->loadHelper('NavLinks');
     }
 }

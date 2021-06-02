@@ -43,3 +43,6 @@ nbproject/*
 docker/data/*
 !docker/data/.gitkeep
 *.env
+schema-dump-default.lock
+webroot/assets
+!webroot/assets/.gitkeep

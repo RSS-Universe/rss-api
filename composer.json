@@ -7,15 +7,16 @@
     "require": {
         "php": ">=7.2",
         "ext-json": "*",
-        "abraham/twitteroauth": "^2.0",
         "cakephp/cakephp": "3.9.*",
         "cakephp/migrations": "^2.0.0",
         "cakephp/plugin-installer": "^1.0",
         "dg/rss-php": "^1.5",
+        "friendsofcake/bootstrap-ui": "2.0.0-beta6",
         "friendsofcake/crud": "^5.0",
-        "google/apiclient": "^2.7",
         "iandenh/cakephp-sendgrid": "^2",
         "mobiledetect/mobiledetectlib": "2.*",
+        "npm-asset/bootstrap": "4.6",
+        "npm-asset/jquery": "^3.6",
         "ozee31/cakephp-cors": "^1"
     },
     "require-dev": {
@@ -50,7 +51,8 @@
     "scripts": {
         "post-install-cmd": [
             "App\\Console\\Installer::postInstall",
-            "bin/cake migrations migrate"
+            "bin/cake migrations migrate",
+            "bin/cake copy_npm_assets"
         ],
         "post-create-project-cmd": "App\\Console\\Installer::postInstall",
         "post-update-cmd": "bin/cake migrations migrate",
@@ -68,9 +70,10 @@
     "config": {
         "sort-packages": true
     },
-    "extra": {
-        "google/apiclient-services": [
-            "YouTube"
-        ]
-    }
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ]
 }

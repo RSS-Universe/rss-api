@@ -36,6 +36,7 @@ class Application extends BaseApplication
      */
     public function bootstrap()
     {
+        $this->addPlugin('BootstrapUI');
         $this->addPlugin('UserAudit');
         $this->addPlugin('AuthUserStore');
         $this->addPlugin('SendgridEmail');
