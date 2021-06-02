@@ -7,6 +7,7 @@ use App\Model\Table\DomainFeedsTable;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Datasource\ResultSetInterface;
 use Cake\Http\Response;
+use Cake\ORM\TableRegistry;
 
 /**
  * DomainFeeds Controller
@@ -42,20 +43,33 @@ class DomainFeedsController extends AppController
     public function view($id = null)
     {
         $domainFeed = $this->DomainFeeds->get($id, [
-            'contain' => ['RssDomains', 'FeedItems'],
+            'contain' => ['RssDomains'],
         ]);
 
-        $this->set('domainFeed', $domainFeed);
+        $this->paginate = [
+            'FeedItemsTable' => [
+                'limit' => 10,
+            ]
+        ];
+
+        $feedItems = $this->paginate(TableRegistry::getTableLocator()->get('FeedItems'), [
+            'conditions' => [
+                'domain_feed_id' => $id
+            ]
+        ]);
+
+        $this->set(compact('domainFeed', 'feedItems'));
     }
 
     /**
-     * Add method
-     *
-     * @return Response|null Redirects on successful add, renders view otherwise.
+     * @param null $id
+     * @return Response|null
      */
-    public function add()
+    public function add($id = null)
     {
-        $domainFeed = $this->DomainFeeds->newEntity();
+        $domainFeed = $this->DomainFeeds->newEntity([
+            'rss_domain_id' => $id
+        ]);
         if ($this->request->is('post')) {
             $domainFeed = $this->DomainFeeds->patchEntity($domainFeed, $this->request->getData());
             if ($this->DomainFeeds->save($domainFeed)) {

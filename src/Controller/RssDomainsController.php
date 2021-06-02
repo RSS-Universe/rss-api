@@ -7,6 +7,7 @@ use App\Model\Table\RssDomainsTable;
 use Cake\Datasource\Exception\RecordNotFoundException;
 use Cake\Datasource\ResultSetInterface;
 use Cake\Http\Response;
+use Cake\ORM\TableRegistry;
 
 /**
  * RssDomains Controller
@@ -39,10 +40,22 @@ class RssDomainsController extends AppController
     public function view($id = null)
     {
         $rssDomain = $this->RssDomains->get($id, [
-            'contain' => ['DomainFeeds'],
+            'contain' => [],
         ]);
 
-        $this->set('rssDomain', $rssDomain);
+        $this->paginate = [
+            'DomainFeedsTable' => [
+                'limit' => 10,
+            ]
+        ];
+
+        $domainFeeds = $this->paginate(TableRegistry::getTableLocator()->get('DomainFeeds'), [
+            'conditions' => [
+                'rss_domain_id' => $rssDomain->id
+            ]
+        ]);
+
+        $this->set(compact('rssDomain', 'domainFeeds'));
     }
 
     /**
