@@ -49,16 +49,16 @@ class DomainFeedsFixture extends TestFixture
     {
         $this->records = [
             [
-                'id' => '09dbdd84-ca68-490e-a54f-c60ce2f40dee',
-                'rss_domain_id' => '389e6af6-351f-4e2d-aefd-30593f0fa1c5',
+                'id' => 'f05dab82-7460-4899-8ea7-071e1e676250',
+                'rss_domain_id' => 'ac6abc53-d5d2-4992-ae19-e165aeaf48f7',
                 'name' => 'Lorem ipsum dolor sit amet',
                 'url' => 'Lorem ipsum dolor sit amet',
                 'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
                 'items_count' => 1,
                 'fetch_in_minutes' => 1,
-                'last_fetch' => '2021-06-02 05:51:22',
-                'created' => '2021-06-02 05:51:22',
-                'modified' => '2021-06-02 05:51:22',
+                'last_fetch' => '2021-06-03 06:36:43',
+                'created' => '2021-06-03 06:36:43',
+                'modified' => '2021-06-03 06:36:43',
             ],
         ];
         parent::init();

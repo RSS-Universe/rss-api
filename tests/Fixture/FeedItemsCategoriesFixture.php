@@ -46,10 +46,10 @@ class FeedItemsCategoriesFixture extends TestFixture
         $this->records = [
             [
                 'id' => 1,
-                'feed_item_id' => '9e08c3e4-0d1f-4308-8709-a0cea70227b2',
-                'category_id' => '5347f3d2-28ec-49f2-82c5-37f0e4a4e19e',
-                'created' => '2021-06-02 05:51:22',
-                'modified' => '2021-06-02 05:51:22',
+                'feed_item_id' => 'e02fdabc-c712-45d8-a9da-c72224557eed',
+                'category_id' => 'f3997a30-b13e-419e-8819-1f7e4c4d635a',
+                'created' => '2021-06-03 06:36:44',
+                'modified' => '2021-06-03 06:36:44',
             ],
         ];
         parent::init();

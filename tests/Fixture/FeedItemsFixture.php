@@ -48,15 +48,15 @@ class FeedItemsFixture extends TestFixture
     {
         $this->records = [
             [
-                'id' => '6710df1e-bec1-4a3a-a18f-3fc6f4c627f5',
-                'domain_feed_id' => '680712ab-9d47-4f22-8cd4-c88e76438ca3',
-                'creator_id' => '61f4a96e-aea4-4f2c-900b-451d7955ed7f',
+                'id' => '5fa34da7-242a-48e0-a161-338e74ad73c8',
+                'domain_feed_id' => 'ff5de457-5af7-4f67-9b1f-5c55999b4507',
+                'creator_id' => '344720ef-de3b-4ecb-b7d8-a993e98d15e1',
                 'title' => 'Lorem ipsum dolor sit amet',
                 'url' => 'Lorem ipsum dolor sit amet',
                 'description' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
-                'published' => '2021-06-02 05:51:22',
-                'created' => '2021-06-02 05:51:22',
-                'modified' => '2021-06-02 05:51:22',
+                'published' => '2021-06-03 06:36:43',
+                'created' => '2021-06-03 06:36:43',
+                'modified' => '2021-06-03 06:36:43',
             ],
         ];
         parent::init();
