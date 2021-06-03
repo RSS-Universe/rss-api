@@ -3,11 +3,15 @@
 namespace App\Model\Table;
 
 use App\Model\Entity\Category;
+use ArrayObject;
 use Cake\Datasource\EntityInterface;
+use Cake\Event\Event;
 use Cake\ORM\Association\BelongsToMany;
 use Cake\ORM\Behavior\TimestampBehavior;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\Utility\Inflector;
+use Cake\Utility\Text;
 use Cake\Validation\Validator;
 use Muffin\Slug\Model\Behavior\SlugBehavior;
 
@@ -92,5 +96,13 @@ class CategoriesTable extends Table
         $rules->add($rules->isUnique(['slug']));
 
         return $rules;
+    }
+
+    public function beforeMarshal(Event $event, ArrayObject $data, ArrayObject $options): void
+    {
+        if (isset($data['name'])) {
+            $data['name'] = Inflector::humanize($data['name']);
+            $data['slug'] = Text::slug(strtolower($data['name']));
+        }
     }
 }

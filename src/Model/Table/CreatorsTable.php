@@ -92,4 +92,10 @@ class CreatorsTable extends Table
 
         return $rules;
     }
+
+    public function findOrCreateId(string $name): string
+    {
+        $entity = $this->findOrCreate(compact('name'));
+        return $entity->id;
+    }
 }

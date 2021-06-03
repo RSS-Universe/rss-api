@@ -2,14 +2,12 @@
 
 namespace App\Command;
 
-use App\Model\Entity\DomainFeed;
 use App\Model\Table\DomainFeedsTable;
 use App\Service\FeedParserService;
 use Cake\Console\Arguments;
 use Cake\Console\Command;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
-use Cake\Datasource\ResultSetInterface;
 use FeedException;
 
 /**
@@ -51,9 +49,13 @@ class RssParserCommand extends Command
      */
     public function execute(Arguments $args, ConsoleIo $io)
     {
-        $feeds = $this->fetchFeeds();
+        $feeds = $this->DomainFeeds->fetchNextForParsing();
         foreach ($feeds as $feed) {
-            $io->info('fetching feed: ' . $feed->name);
+            $last_fetched = !!$feed->last_fetch
+                ? ' last fetched ' . $feed->last_fetch->timeAgoInWords()
+                : 'never previously fetched';
+
+            $io->info('fetching feed: ' . $feed->name . ' ' . $last_fetched);
             $entities = FeedParserService::getInstance()->parse($feed);
             if (count($entities) === 0) {
                 $io->info('No new feed items found.');
@@ -68,12 +70,4 @@ class RssParserCommand extends Command
         }
     }
 
-    /**
-     * @return ResultSetInterface|DomainFeed[]
-     */
-    protected function fetchFeeds()
-    {
-        return $this->DomainFeeds->find()
-            ->whereNull(['last_fetch'])->all();
-    }
 }

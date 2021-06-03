@@ -5,6 +5,9 @@ namespace App\Service;
 
 use App\Model\Entity\DomainFeed;
 use App\Model\Entity\FeedItem;
+use App\Model\Table\CategoriesTable;
+use App\Model\Table\CreatorsTable;
+use App\Model\Table\DomainFeedsTable;
 use App\Model\Table\FeedItemsTable;
 use Cake\Chronos\Chronos;
 use Cake\Core\Exception\Exception;
@@ -28,10 +31,25 @@ class FeedParserService
      */
     protected $FeedItems;
 
+    /**
+     * @var CreatorsTable
+     */
+    protected $Creators;
+
+    /**
+     * @var CategoriesTable
+     */
+    protected $Categories;
+
+    /**
+     * @var DomainFeedsTable
+     */
+    protected $DomainFeeds;
+
     use SingletonTrait;
 
     protected $knows_feed_props = [
-        'title', 'link', 'description', 'timestamp', 'guid', 'pubDate','dc:creator'
+        'title', 'link', 'description', 'timestamp', 'guid', 'pubDate', 'dc:creator', 'category'
     ];
 
     /**
@@ -43,6 +61,9 @@ class FeedParserService
         Feed::$cacheExpire = '5 minutes';
         Feed::$userAgent = "RSS Universe; (+http://rss-universe)";
         $this->FeedItems = TableRegistry::getTableLocator()->get('FeedItems');
+        $this->Creators = TableRegistry::getTableLocator()->get('Creators');
+        $this->Categories = TableRegistry::getTableLocator()->get('Categories');
+        $this->DomainFeeds = TableRegistry::getTableLocator()->get('DomainFeeds');
     }
 
     /**
@@ -50,6 +71,7 @@ class FeedParserService
      * @return FeedItem[]|ResultSetInterface
      * @throws FeedException
      * @throws Exception
+     * @throws \Exception
      */
     public function parse(DomainFeed $domainFeed): array
     {
@@ -58,17 +80,36 @@ class FeedParserService
         $feedItems = [];
         foreach ($rssArray['item'] as $item) {
             $this->checkFeedProps($item);
-            $feedItems[] = [
+            $data = [
                 'domain_feed_id' => $domainFeed->id,
                 'title' => Hash::get($item, 'title'),
                 'url' => Hash::get($item, 'link'),
                 'description' => Hash::get($item, 'description'),
                 'published' => Chronos::createFromTimestampUTC((int)Hash::get($item, 'timestamp')),
             ];
+            $creator = Hash::get($item, 'creator');
+            if ($creator) {
+                $data['creator_id'] = $this->Creators->findOrCreate($creator);
+            }
+
+            $categories = Hash::get($item, 'category');
+            if ($categories) {
+                $data['categories'] = ['_ids'];
+                foreach ($categories as $name) {
+                    $category = $this->Categories->findOrCreate(compact('name'));
+                    $data['categories']['_ids'][] = $category->id;
+                }
+            }
+            $feedItems[] = $data;
         }
         $entities = $this->FeedItems->newEntities($feedItems);
         $entities = $this->filterKnownEntities($entities);
-        return $this->FeedItems->saveManyOrFail($entities);
+        $results = $this->FeedItems->saveManyOrFail($entities);
+
+        $domainFeed->last_fetch = Chronos::now();
+        $this->DomainFeeds->saveOrFail($domainFeed);
+
+        return $results;
     }
 
 

@@ -4,6 +4,7 @@ namespace App\Model\Table;
 
 use App\Model\Entity\DomainFeed;
 use Cake\Datasource\EntityInterface;
+use Cake\Datasource\ResultSetInterface;
 use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\Association\HasMany;
 use Cake\ORM\Behavior\TimestampBehavior;
@@ -108,5 +109,22 @@ class DomainFeedsTable extends Table
         $rules->add($rules->existsIn(['rss_domain_id'], 'RssDomains'));
 
         return $rules;
+    }
+
+    /**
+     * @param int $limit
+     * @return ResultSetInterface|DomainFeed[]
+     */
+    public function fetchNextForParsing(int $limit = 10)
+    {
+        return $this->find()
+            ->limit($limit)
+            ->orderAsc('last_fetch')
+            ->where([
+                'OR' => [
+                    'last_fetch IS NULL',
+                    'TIMESTAMPDIFF(MINUTE, last_fetch, NOW()) > fetch_in_minutes'
+                ]
+            ])->all();
     }
 }
