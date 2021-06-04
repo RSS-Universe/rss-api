@@ -11,8 +11,6 @@ use App\View\AppView;
 
 $this->extend('/Base/view');
 $this->assign('title', $domainFeed->name);
-$this->assign('edit_id', $domainFeed->id);
-
 ?>
 <?= $this->Text->autoParagraph(h($domainFeed->description)); ?>
 <div class="table-responsive">

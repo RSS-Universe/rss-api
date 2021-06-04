@@ -15,6 +15,9 @@ $this->assign('title', 'Feeds');
 <? $this->start('table_body') ?>
 <?php foreach ($domainFeeds as $domainFeed): ?>
     <tr>
+        <td style="text-align: center;">
+            <?= $this->ActiveIndicator->render($domainFeed->is_active) ?>
+        </td>
         <td>
             <?= $this->Html->link($domainFeed->name, ['action' => 'view', $domainFeed->id]) ?><br/>
             <?= h($domainFeed->url) ?><br/>
@@ -23,12 +26,13 @@ $this->assign('title', 'Feeds');
         <td style="white-space: nowrap"><?= $domainFeed->has('rss_domain') ? $this->Html->link($domainFeed->rss_domain->name, ['controller' => 'RssDomains', 'action' => 'view', $domainFeed->rss_domain->id]) : '' ?></td>
         <td><?= $this->Number->format($domainFeed->items_count) ?></td>
         <td><?= $this->Number->format($domainFeed->fetch_in_minutes) ?> minutes</td>
-        <td><?= h($domainFeed->last_fetch) ?></td>
+        <td><?= $domainFeed->last_fetch ? $domainFeed->last_fetch->timeAgoInWords() : 'Never Fetched' ?></td>
     </tr>
 <?php endforeach; ?>
 <? $this->end() ?>
 <?= $this->element('paginatedTableData', [
     'table_headers' => [
+        $this->Paginator->sort('is_active', 'Active'),
         $this->Paginator->sort('name'),
         $this->Paginator->sort('rss_domain_id', 'Domain'),
         $this->Paginator->sort('items_count', 'Items'),

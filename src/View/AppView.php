@@ -28,6 +28,7 @@ use Cake\View\View;
  *
  * @property Helper\AuthHelper $Auth
  * @property Helper\NavLinksHelper $NavLinks
+ * @property Helper\ActiveIndicatorHelper $ActiveIndicator
  *
  * @property BootstrapUIHelper\HtmlHelper $Html
  * @property BootstrapUIHelper\FormHelper $Form
@@ -55,5 +56,6 @@ class AppView extends View
         ]);
         $this->loadHelper('Auth');
         $this->loadHelper('NavLinks');
+        $this->loadHelper('ActiveIndicator');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Model\Entity;
 
+use Cake\I18n\FrozenTime;
 use Cake\ORM\Entity;
 
 /**
@@ -10,11 +11,11 @@ use Cake\ORM\Entity;
  * @property int $id
  * @property string $feed_item_id
  * @property string $category_id
- * @property \Cake\I18n\FrozenTime|null $created
- * @property \Cake\I18n\FrozenTime|null $modified
+ * @property FrozenTime|null $created
+ * @property FrozenTime|null $modified
  *
- * @property \App\Model\Entity\FeedItem $feed_item
- * @property \App\Model\Entity\Category $category
+ * @property FeedItem $feed_item
+ * @property Category $category
  */
 class FeedItemsCategory extends Entity
 {

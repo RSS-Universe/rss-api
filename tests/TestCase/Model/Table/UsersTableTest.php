@@ -26,6 +26,8 @@ class UsersTableTest extends TestCase
     public $fixtures = [
         'app.Users',
         'app.AuditLogs',
+        'app.DomainFeeds',
+        'app.RssDomains',
     ];
 
     /**

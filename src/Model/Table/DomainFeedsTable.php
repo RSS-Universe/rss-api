@@ -16,6 +16,7 @@ use Cake\Validation\Validator;
  * DomainFeeds Model
  *
  * @property RssDomainsTable&BelongsTo $RssDomains
+ * @property UsersTable&BelongsTo $Users
  * @property FeedItemsTable&HasMany $FeedItems
  *
  * @method DomainFeed get($primaryKey, $options = [])
@@ -51,6 +52,10 @@ class DomainFeedsTable extends Table
         ]);
         $this->belongsTo('RssDomains', [
             'foreignKey' => 'rss_domain_id',
+            'joinType' => 'INNER',
+        ]);
+        $this->belongsTo('Users', [
+            'foreignKey' => 'user_id',
             'joinType' => 'INNER',
         ]);
         $this->hasMany('FeedItems', [
@@ -93,6 +98,14 @@ class DomainFeedsTable extends Table
             ->integer('fetch_in_minutes')
             ->notEmptyString('fetch_in_minutes');
 
+        $validator
+            ->boolean('is_active')
+            ->allowEmptyString('is_active');
+
+        $validator
+            ->dateTime('last_fetch')
+            ->allowEmptyDateTime('last_fetch');
+
         return $validator;
     }
 
@@ -107,6 +120,7 @@ class DomainFeedsTable extends Table
     {
         $rules->add($rules->isUnique(['url']));
         $rules->add($rules->existsIn(['rss_domain_id'], 'RssDomains'));
+        $rules->add($rules->existsIn(['user_id'], 'Users'));
 
         return $rules;
     }

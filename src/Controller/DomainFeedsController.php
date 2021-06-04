@@ -18,6 +18,23 @@ use Cake\ORM\TableRegistry;
  */
 class DomainFeedsController extends AppController
 {
+
+    public $paginate = [
+        'DomainFeeds' => [
+            'limit' => 10,
+            'order' => [
+                'last_fetch' => 'asc'
+            ],
+        ],
+        'FeedItems' => [
+            'limit' => 10,
+            'order' => [
+                'published' => 'desc'
+            ],
+        ],
+
+    ];
+
     /**
      * Index method
      *
@@ -46,17 +63,14 @@ class DomainFeedsController extends AppController
             'contain' => ['RssDomains'],
         ]);
 
-        $this->paginate = [
-            'FeedItemsTable' => [
-                'limit' => 10,
-            ]
-        ];
-
-        $feedItems = $this->paginate(TableRegistry::getTableLocator()->get('FeedItems'), [
-            'conditions' => [
-                'domain_feed_id' => $id
-            ]
-        ]);
+        $feedItems = $this->paginate(
+            TableRegistry::getTableLocator()
+                ->get('FeedItems')
+                ->find()
+                ->where([
+                    'domain_feed_id' => $domainFeed->id
+                ])
+        );
 
         $this->set(compact('domainFeed', 'feedItems'));
     }
@@ -72,6 +86,11 @@ class DomainFeedsController extends AppController
         ]);
         if ($this->request->is('post')) {
             $domainFeed = $this->DomainFeeds->patchEntity($domainFeed, $this->request->getData());
+            $domainFeed = $this->DomainFeeds->patchEntity($domainFeed, [
+                'is_active' => false,
+                'user_id' => $this->Auth->user('id'),
+                'feed_count' => 0
+            ]);
             if ($this->DomainFeeds->save($domainFeed)) {
                 $this->Flash->success(__('The domain feed has been saved.'));
 
@@ -81,50 +100,5 @@ class DomainFeedsController extends AppController
         }
         $rssDomains = $this->DomainFeeds->RssDomains->find('list', ['limit' => 200]);
         $this->set(compact('domainFeed', 'rssDomains'));
-    }
-
-    /**
-     * Edit method
-     *
-     * @param string|null $id Domain Feed id.
-     * @return Response|null Redirects on successful edit, renders view otherwise.
-     * @throws RecordNotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $domainFeed = $this->DomainFeeds->get($id, [
-            'contain' => [],
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $domainFeed = $this->DomainFeeds->patchEntity($domainFeed, $this->request->getData());
-            if ($this->DomainFeeds->save($domainFeed)) {
-                $this->Flash->success(__('The domain feed has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The domain feed could not be saved. Please, try again.'));
-        }
-        $rssDomains = $this->DomainFeeds->RssDomains->find('list', ['limit' => 200]);
-        $this->set(compact('domainFeed', 'rssDomains'));
-    }
-
-    /**
-     * Delete method
-     *
-     * @param string|null $id Domain Feed id.
-     * @return Response|null Redirects to index.
-     * @throws RecordNotFoundException When record not found.
-     */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $domainFeed = $this->DomainFeeds->get($id);
-        if ($this->DomainFeeds->delete($domainFeed)) {
-            $this->Flash->success(__('The domain feed has been deleted.'));
-        } else {
-            $this->Flash->error(__('The domain feed could not be deleted. Please, try again.'));
-        }
-
-        return $this->redirect(['action' => 'index']);
     }
 }

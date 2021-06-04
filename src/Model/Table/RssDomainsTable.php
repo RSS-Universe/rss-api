@@ -4,6 +4,7 @@ namespace App\Model\Table;
 
 use App\Model\Entity\RssDomain;
 use Cake\Datasource\EntityInterface;
+use Cake\ORM\Association\BelongsTo;
 use Cake\ORM\Association\HasMany;
 use Cake\ORM\Behavior\TimestampBehavior;
 use Cake\ORM\RulesChecker;
@@ -13,6 +14,7 @@ use Cake\Validation\Validator;
 /**
  * RssDomains Model
  *
+ * @property UsersTable&BelongsTo $Users
  * @property DomainFeedsTable&HasMany $DomainFeeds
  *
  * @method RssDomain get($primaryKey, $options = [])
@@ -44,6 +46,10 @@ class RssDomainsTable extends Table
 
         $this->addBehavior('Timestamp');
 
+        $this->belongsTo('Users', [
+            'foreignKey' => 'user_id',
+            'joinType' => 'INNER',
+        ]);
         $this->hasMany('DomainFeeds', [
             'foreignKey' => 'rss_domain_id',
         ]);
@@ -60,6 +66,10 @@ class RssDomainsTable extends Table
         $validator
             ->uuid('id')
             ->allowEmptyString('id', null, 'create');
+
+        $validator
+            ->boolean('is_active')
+            ->allowEmptyString('is_active');
 
         $validator
             ->scalar('name')
@@ -93,6 +103,7 @@ class RssDomainsTable extends Table
     public function buildRules(RulesChecker $rules): RulesChecker
     {
         $rules->add($rules->isUnique(['url']));
+        $rules->add($rules->existsIn(['user_id'], 'Users'));
 
         return $rules;
     }

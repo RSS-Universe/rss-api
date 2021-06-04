@@ -14,7 +14,7 @@ $this->assign('title', 'New Feed');
 ?>
 <?= $this->Form->create($domainFeed) ?>
 <?php
-echo $this->Form->control('rss_domain_id', ['options' => $rssDomains]);
+echo $this->Form->control('rss_domain_id', ['options' => $rssDomains, 'empty' => '(Choose Domain)']);
 echo $this->Form->control('name');
 echo $this->Form->control('url');
 echo $this->Form->control('description');

@@ -19,6 +19,8 @@ use Cake\ORM\Entity;
  * @property string|null $email_verification_code
  * @property FrozenTime|null $created
  * @property FrozenTime|null $modified
+ * @property DomainFeed[] $domain_feeds
+ * @property RssDomain[] $rss_domains
  */
 class User extends Entity
 {
@@ -41,6 +43,8 @@ class User extends Entity
         'email_verification_code' => true,
         'created' => true,
         'modified' => true,
+        'domain_feeds' => true,
+        'rss_domains' => true,
     ];
 
     /**

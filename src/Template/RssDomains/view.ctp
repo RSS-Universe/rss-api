@@ -11,7 +11,6 @@ use App\View\AppView;
 
 $this->extend('/Base/view');
 $this->assign('title', $rssDomain->name);
-$this->assign('edit_id', $rssDomain->id);
 ?>
 <?= $this->Text->autoParagraph(h($rssDomain->description)); ?>
 <div class="table-responsive">
@@ -19,6 +18,13 @@ $this->assign('edit_id', $rssDomain->id);
         <tr>
             <th scope="row"><?= __('Id') ?></th>
             <td><?= h($rssDomain->id) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Active') ?></th>
+            <td>
+                <?= $this->ActiveIndicator->render($rssDomain->is_active) ?>
+                <?= $rssDomain->is_active ? 'Active' : 'Not Active' ?>
+            </td>
         </tr>
         <tr>
             <th scope="row"><?= __('Url') ?></th>
@@ -30,11 +36,11 @@ $this->assign('edit_id', $rssDomain->id);
         </tr>
         <tr>
             <th scope="row"><?= __('Created') ?></th>
-            <td><?= h($rssDomain->created) ?></td>
+            <td><?= h($rssDomain->created->timeAgoInWords()) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Modified') ?></th>
-            <td><?= h($rssDomain->modified) ?></td>
+            <td><?= h($rssDomain->modified->timeAgoInWords()) ?></td>
         </tr>
     </table>
 </div>
@@ -50,6 +56,9 @@ $this->assign('edit_id', $rssDomain->id);
         <? $this->start('table_body') ?>
         <?php foreach ($domainFeeds as $domainFeed): ?>
             <tr>
+                <td style="text-align: center;">
+                    <?= $this->ActiveIndicator->render($domainFeed->is_active) ?>
+                </td>
                 <td>
                     <?= $this->Html->link($domainFeed->name, [
                         'controller' => 'DomainFeeds',
@@ -61,12 +70,13 @@ $this->assign('edit_id', $rssDomain->id);
                 </td>
                 <td><?= $this->Number->format($domainFeed->items_count) ?></td>
                 <td><?= $this->Number->format($domainFeed->fetch_in_minutes) ?> minutes</td>
-                <td><?= h($domainFeed->last_fetch) ?></td>
+                <td><?= $domainFeed->last_fetch ? $domainFeed->last_fetch->timeAgoInWords() : 'Never Fetched' ?></td>
             </tr>
         <?php endforeach; ?>
         <? $this->end() ?>
         <?= $this->element('paginatedTableData', [
             'table_headers' => [
+                $this->Paginator->sort('is_active', 'Active'),
                 $this->Paginator->sort('name'),
                 $this->Paginator->sort('items_count', 'Items'),
                 $this->Paginator->sort('fetch_in_minutes', 'Frequency'),

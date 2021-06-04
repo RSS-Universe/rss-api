@@ -5,6 +5,7 @@ namespace App\Model\Table;
 use App\Model\Entity\User;
 use Cake\Core\Exception\Exception;
 use Cake\Datasource\EntityInterface;
+use Cake\ORM\Association\HasMany;
 use Cake\ORM\Behavior\TimestampBehavior;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -13,6 +14,9 @@ use Cake\Validation\Validator;
 
 /**
  * Users Model
+ *
+ * @property DomainFeedsTable&HasMany $DomainFeeds
+ * @property RssDomainsTable&HasMany $RssDomains
  *
  * @method User get($primaryKey, $options = [])
  * @method User newEntity($data = null, array $options = [])
@@ -42,6 +46,12 @@ class UsersTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->hasMany('DomainFeeds', [
+            'foreignKey' => 'user_id',
+        ]);
+        $this->hasMany('RssDomains', [
+            'foreignKey' => 'user_id',
+        ]);
     }
 
     /**

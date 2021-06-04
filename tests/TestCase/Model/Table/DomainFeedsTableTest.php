@@ -26,6 +26,7 @@ class DomainFeedsTableTest extends TestCase
     public $fixtures = [
         'app.DomainFeeds',
         'app.RssDomains',
+        'app.Users',
         'app.FeedItems',
     ];
 

@@ -16,6 +16,7 @@ class CopyNpmAssetsCommand extends Command
     protected $asset_map = [
         'bootstrap/dist/' => 'bootstrap',
         'jquery/dist/' => 'jquery',
+        'font-awesome/' => 'font-awesome'
     ];
 
     /**

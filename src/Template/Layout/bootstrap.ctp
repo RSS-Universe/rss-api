@@ -14,6 +14,7 @@
 
 
     <?= $this->Html->css([
+        '/assets/font-awesome/css/all',
         '/assets/bootstrap/css/bootstrap',
         'alpha'
     ]) ?>
