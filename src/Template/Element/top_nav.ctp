@@ -30,7 +30,9 @@ use App\View\AppView;
                 <? if ($this->Auth->isLoggedIn()) : ?>
                     <?= $this->NavLinks->link('Log Out', ['controller' => 'Users', 'action' => 'logout']) ?>
                 <? else: ?>
-                    <?= $this->NavLinks->link('Log In', ['controller' => 'Users', 'action' => 'login']) ?>
+                    <li class="nav-item">
+                        <?= $this->Modal->toggleLink('LogInModal', 'Log In', ['class'=>'btn btn-link nav-link']) ?>
+                    </li>
                     <?= $this->NavLinks->link('Register', ['controller' => 'Users', 'action' => 'register']) ?>
                 <? endif; ?>
             </ul>

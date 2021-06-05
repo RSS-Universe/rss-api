@@ -17,6 +17,8 @@ namespace App\Controller;
 
 use App\Model\Entity\User;
 use Cake\Controller\Controller;
+use Cake\Event\Event;
+use Cake\Http\Response;
 use Exception;
 
 /**
@@ -59,6 +61,14 @@ class AppController extends Controller
         ]);
 
         $this->Auth->allow(['display', 'view', 'index']);
+    }
+
+    public function beforeRender(Event $event)
+    {
+        if ($this->getRequest()->is('ajax')) {
+            $this->viewBuilder()->disableAutoLayout();
+        }
+        return parent::beforeRender($event);
     }
 
     /**
