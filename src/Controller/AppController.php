@@ -18,7 +18,6 @@ namespace App\Controller;
 use App\Model\Entity\User;
 use Cake\Controller\Controller;
 use Cake\Event\Event;
-use Cake\Http\Response;
 use Exception;
 
 /**

@@ -31,7 +31,7 @@ use App\View\AppView;
                     <?= $this->NavLinks->link('Log Out', ['controller' => 'Users', 'action' => 'logout']) ?>
                 <? else: ?>
                     <li class="nav-item">
-                        <?= $this->Modal->toggleLink('LogInModal', 'Log In', ['class'=>'btn btn-link nav-link']) ?>
+                        <?= $this->Modal->toggleLink('LogInModal', 'Log In', ['class' => 'btn btn-link nav-link']) ?>
                     </li>
                     <?= $this->NavLinks->link('Register', ['controller' => 'Users', 'action' => 'register']) ?>
                 <? endif; ?>

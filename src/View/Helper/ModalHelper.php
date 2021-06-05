@@ -25,6 +25,13 @@ class ModalHelper extends Helper
         ]
     ];
 
+    public function load(string $modal_name): string
+    {
+        $this->ensureModalNameValidity($modal_name);
+
+        return $this->getView()->element('Modal/' . $modal_name, compact('modal_name'));
+    }
+
     /**
      * @param string $modal_name
      * @throws Exception
@@ -37,24 +44,20 @@ class ModalHelper extends Helper
         }
     }
 
-    public function load(string $modal_name): string
-    {
-        $this->ensureModalNameValidity($modal_name);
-
-        return $this->getView()->element('Modal/' . $modal_name, compact('modal_name'));
-    }
-
-    public function toggleLink(string $modal_name, $title, array $options = []): string
+    public function toggleLink(string $modal_name, $title, array $options = [], bool $auth_check = false): string
     {
         $this->ensureModalNameValidity($modal_name);
 
         $options['type'] = 'button';
         $options['data-toggle'] = 'modal';
         $options['data-target'] = "#${modal_name}";
+        if ($auth_check) {
+            $options['data-auth'] = 'true';
+        }
         return $this->Form->button($title, $options);
     }
 
-    public function loadAjax():string
+    public function loadAjax(): string
     {
         $this->getView()->Html->script('ajaxModal', ['block' => 'script']);
         return $this->getView()->element('Modal/ajax_modal');

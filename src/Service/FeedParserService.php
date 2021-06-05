@@ -112,6 +112,13 @@ class FeedParserService
         return $results;
     }
 
+    protected function checkFeedProps(array $item)
+    {
+        $unknown_keys = array_diff(array_keys($item), $this->knows_feed_props);
+        if (count($unknown_keys)) {
+            throw new Exception('Found unknown feed props: ' . print_r($unknown_keys, true));
+        }
+    }
 
     /**
      * @param FeedItem[] $entities
@@ -123,13 +130,5 @@ class FeedParserService
             ->filter(function (FeedItem $feedItem) {
                 return !$feedItem->getError('url');
             })->toArray();
-    }
-
-    protected function checkFeedProps(array $item)
-    {
-        $unknown_keys = array_diff(array_keys($item), $this->knows_feed_props);
-        if (count($unknown_keys)) {
-            throw new Exception('Found unknown feed props: ' . print_r($unknown_keys, true));
-        }
     }
 }

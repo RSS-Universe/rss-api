@@ -18,13 +18,13 @@ $footer_content = $this->fetch('footer_content', '');
 ?>
 
 <!-- Modal -->
-<div class="modal fade" id="<?=$modal_name?>" tabindex="-1" role="dialog" aria-labelledby="<?=$modal_name?>Label"
+<div class="modal fade" id="<?= $modal_name ?>" tabindex="-1" role="dialog" aria-labelledby="<?= $modal_name ?>Label"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <?php if ($title): ?>
                 <div class="modal-header">
-                    <h5 class="modal-title" id="<?=$modal_name?>Label">
+                    <h5 class="modal-title" id="<?= $modal_name ?>Label">
                         <?= $title ?>
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
