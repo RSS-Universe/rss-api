@@ -36,6 +36,8 @@ class Application extends BaseApplication
      */
     public function bootstrap()
     {
+        $this->addPlugin('Commentable');
+
         $this->addPlugin('Muffin/Slug');
 
         $this->addPlugin('BootstrapUI');
@@ -59,6 +61,22 @@ class Application extends BaseApplication
         if (Configure::read('debug')) {
             $this->addPlugin('DebugKit');
         }
+
+        // Load more plugins here
+    }
+
+    /**
+     * @return void
+     */
+    protected function bootstrapCli()
+    {
+        try {
+            $this->addPlugin('Bake');
+        } catch (MissingPluginException $e) {
+            // Do not halt if the plugin is missing
+        }
+
+        $this->addPlugin('Migrations');
 
         // Load more plugins here
     }
@@ -90,21 +108,5 @@ class Application extends BaseApplication
             ->add(new RoutingMiddleware($this));
 
         return $middlewareQueue;
-    }
-
-    /**
-     * @return void
-     */
-    protected function bootstrapCli()
-    {
-        try {
-            $this->addPlugin('Bake');
-        } catch (MissingPluginException $e) {
-            // Do not halt if the plugin is missing
-        }
-
-        $this->addPlugin('Migrations');
-
-        // Load more plugins here
     }
 }

@@ -99,6 +99,14 @@ class UsersController extends AppController
         $this->set(compact('user'));
     }
 
+    protected function ifLoggedInRedirect()
+    {
+        if ($this->Auth->user('id')) {
+            $this->Flash->error('You are already logged in.');
+            return $this->redirect($this->referer());
+        }
+    }
+
     /**
      * Edit method
      *
@@ -159,14 +167,6 @@ class UsersController extends AppController
             } else {
                 $this->Flash->error('Your email or password is incorrect.');
             }
-        }
-    }
-
-    protected function ifLoggedInRedirect()
-    {
-        if ($this->Auth->user('id')) {
-            $this->Flash->error('You are already logged in.');
-            return $this->redirect($this->referer());
         }
     }
 }
