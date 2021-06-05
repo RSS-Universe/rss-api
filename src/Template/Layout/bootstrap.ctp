@@ -1,3 +1,13 @@
+<?php
+declare(strict_types=1);
+
+/**
+ * @var AppView $this
+ */
+
+use App\View\AppView;
+
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -22,7 +32,7 @@
     <?= $this->fetch('css') ?>
 </head>
 
-<body>
+<body data-auth-status="<?= $this->Auth->isLoggedIn() ? 'true' : 'false' ?>">
 <?= $this->element('top_nav') ?>
 
 <?= $this->Flash->render() ?>
@@ -33,7 +43,8 @@
 <footer class="container">
     <p>&copy; Company 2017-2018</p>
 </footer>
-
+<?= $this->Auth->isLoggedIn() ? '' : $this->Modal->load('LogInModal') ?>
+<?= $this->Modal->loadAjax() ?>
 <?= $this->Html->script([
     '/assets/jquery/jquery',
     '/assets/bootstrap/js/bootstrap',

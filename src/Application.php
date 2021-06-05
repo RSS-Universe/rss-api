@@ -64,6 +64,22 @@ class Application extends BaseApplication
     }
 
     /**
+     * @return void
+     */
+    protected function bootstrapCli()
+    {
+        try {
+            $this->addPlugin('Bake');
+        } catch (MissingPluginException $e) {
+            // Do not halt if the plugin is missing
+        }
+
+        $this->addPlugin('Migrations');
+
+        // Load more plugins here
+    }
+
+    /**
      * Setup the middleware queue your application will use.
      *
      * @param MiddlewareQueue $middlewareQueue The middleware queue to setup.
@@ -90,21 +106,5 @@ class Application extends BaseApplication
             ->add(new RoutingMiddleware($this));
 
         return $middlewareQueue;
-    }
-
-    /**
-     * @return void
-     */
-    protected function bootstrapCli()
-    {
-        try {
-            $this->addPlugin('Bake');
-        } catch (MissingPluginException $e) {
-            // Do not halt if the plugin is missing
-        }
-
-        $this->addPlugin('Migrations');
-
-        // Load more plugins here
     }
 }
