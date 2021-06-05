@@ -1,9 +1,9 @@
 <?php
+
 namespace Commentable\Test\TestCase\Controller;
 
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
-use Commentable\Controller\CommentsController;
 
 /**
  * Commentable\Controller\CommentsController Test Case

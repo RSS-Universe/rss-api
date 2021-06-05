@@ -90,7 +90,7 @@ class CommentsTable extends Table
 
         $validator
             ->scalar('comment')
-            ->allowEmptyString('comment');
+            ->notEmptyString('comment');
 
         return $validator;
     }

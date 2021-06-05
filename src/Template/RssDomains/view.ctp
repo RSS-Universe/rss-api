@@ -94,5 +94,5 @@ $this->assign('title', $rssDomain->name);
     <?= $this->Comment->renderForm('RssDomains', $rssDomain->id) ?>
 </section>
 <section class="pt-3">
-    <?= $this->Comment->renderComments('RssDomains', $rssDomain->id) ?>
+    <?= $this->Comment->renderThreadedComments('RssDomains', $rssDomain->id) ?>
 </section>

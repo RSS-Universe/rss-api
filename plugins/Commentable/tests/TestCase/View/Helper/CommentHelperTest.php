@@ -1,4 +1,5 @@
 <?php
+
 namespace Commentable\Test\TestCase\View\Helper;
 
 use Cake\TestSuite\TestCase;
@@ -13,7 +14,7 @@ class CommentHelperTest extends TestCase
     /**
      * Test subject
      *
-     * @var \Commentable\View\Helper\CommentHelper
+     * @var CommentHelper
      */
     public $Comment;
 

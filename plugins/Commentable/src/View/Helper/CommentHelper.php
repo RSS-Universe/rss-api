@@ -2,6 +2,8 @@
 
 namespace Commentable\View\Helper;
 
+use App\View\Helper\ModalHelper;
+use BootstrapUI\View\Helper\HtmlHelper;
 use Cake\Core\Exception\Exception;
 use Cake\ORM\ResultSet;
 use Cake\ORM\Table;
@@ -12,6 +14,10 @@ use Commentable\Model\Entity\Comment;
 
 /**
  * Comment helper
+ *
+ * @property Helper\UrlHelper $Url
+ * @property HtmlHelper $Html
+ * @property ModalHelper $Modal
  */
 class CommentHelper extends Helper
 {
@@ -24,23 +30,14 @@ class CommentHelper extends Helper
         'list_element_path' => 'Commentable.bootstrap_comment_list'
     ];
 
+    protected $helpers = ['Url', 'Modal', 'Html'];
+
     public function renderForm(string $model_name, string $model_identifier, ?string $parent_id = null): string
     {
         return $this->getView()->element(
             'Commentable.comment_form',
             compact('model_identifier', 'model_name', 'parent_id')
         );
-    }
-
-    /**
-     * @param ResultSet|Comment[] $comments
-     * @param string|null $element_path
-     * @return string
-     */
-    public function renderCommentsList($comments, ?string $element_path = null): string
-    {
-        $element_path = $element_path ?? $this->getConfig('list_element_path');
-        return $this->getView()->element($element_path, compact('comments'));
     }
 
     public function renderComments(
@@ -57,4 +54,53 @@ class CommentHelper extends Helper
         $comments = $table->getComments($model_identifier);
         return $this->renderCommentsList($comments, $element_path);
     }
+
+    /**
+     * @param ResultSet|Comment[] $comments
+     * @param string|null $element_path
+     * @return string
+     */
+    public function renderCommentsList($comments, ?string $element_path = null): string
+    {
+        $element_path = $element_path ?? $this->getConfig('list_element_path');
+        return $this->getView()->element($element_path, compact('comments'));
+    }
+
+    public function renderThreadedComments(
+        string $model_name,
+        string $model_identifier,
+        ?string $element_path = null
+    ): string
+    {
+        /** @var Table&CommentableBehavior $table */
+        $table = TableRegistry::getTableLocator()->get($model_name);
+        if (!$table->hasBehavior('Commentable')) {
+            throw new Exception("The model '{$model_name}' does not have the 'Commentable.Commentable' behavior");
+        }
+        $comments = $table->getComments($model_identifier)->find('threaded');
+        return $this->renderCommentsList($comments, $element_path);
+    }
+
+    public function replyButton(string $comment_id): string
+    {
+        $uri = $this->replyUrl($comment_id);
+        $title = $this->Html->icon('reply') . 'reply';
+        return $this->Modal->ajaxModalLink($uri, $title, [
+            'class' => 'btn btn-sm btn-primary'
+        ]);
+    }
+
+    public function replyUrl(string $comment_id): string
+    {
+        return $this->Url->build([
+            'plugin' => 'commentable',
+            'controller' => 'Comments',
+            'action' => 'replyTo',
+            $comment_id,
+            '?' => [
+                'return' => (string)$this->getView()->getRequest()->getUri()
+            ]
+        ]);
+    }
+
 }

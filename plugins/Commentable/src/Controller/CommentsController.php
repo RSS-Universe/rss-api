@@ -37,7 +37,30 @@ class CommentsController extends AppController
             ]);
             $this->Comments->saveOrFail($comment);
         }
-
         return $this->redirect($this->referer());
+    }
+
+    public function replyTo(string $comment_id)
+    {
+        $return = $this->getRequest()->getQuery('return');
+        $comment = $this->Comments->get($comment_id, ['contain' => 'Users']);
+        $defaults = [
+            'user_id' => AuthUserStore::getUser()->id,
+            'model_name' => $comment->model_name,
+            'model_identifier' => $comment->model_identifier,
+            'parent_id' => $comment->id,
+        ];
+        $reply = $this->Comments->newEntity($defaults);
+        if ($this->request->is('post')) {
+            $reply = $this->Comments->patchEntity($reply, $this->getRequest()->getData());
+            $reply = $this->Comments->patchEntity($reply, $defaults);
+            if ($this->Comments->save($reply)) {
+                $this->Flash->success('Reply Successful');
+                return $this->redirect($return ?? $this->referer());
+            } else {
+                $this->Flash->error('Can not save reply');
+            }
+        }
+        $this->set(compact('comment', 'reply'));
     }
 }

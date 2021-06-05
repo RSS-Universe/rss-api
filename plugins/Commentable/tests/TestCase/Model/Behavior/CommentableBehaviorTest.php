@@ -1,4 +1,5 @@
 <?php
+
 namespace Commentable\Test\TestCase\Model\Behavior;
 
 use Cake\TestSuite\TestCase;
@@ -12,7 +13,7 @@ class CommentableBehaviorTest extends TestCase
     /**
      * Test subject
      *
-     * @var \Commentable\Model\Behavior\CommentableBehavior
+     * @var CommentableBehavior
      */
     public $Commentable;
 
