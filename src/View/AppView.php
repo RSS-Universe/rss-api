@@ -31,6 +31,7 @@ use Commentable\View\Helper\CommentHelper;
  * @property Helper\NavLinksHelper $NavLinks
  * @property Helper\ActiveIndicatorHelper $ActiveIndicator
  * @property Helper\GravatarHelper $Gravatar
+ * @property Helper\ModalHelper $Modal
  *
  * @property BootstrapUIHelper\HtmlHelper $Html
  * @property BootstrapUIHelper\FormHelper $Form
@@ -63,5 +64,6 @@ class AppView extends View
         $this->loadHelper('ActiveIndicator');
         $this->loadHelper('Gravatar');
         $this->loadHelper('Commentable.Comment');
+        $this->loadHelper('Modal');
     }
 }
