@@ -3,11 +3,14 @@
  * @var AppView $this
  * @var RssDomain $rssDomain
  * @var DomainFeed[] $domainFeeds
+ * @var ResultSet|Comment[] $comments
  */
 
 use App\Model\Entity\DomainFeed;
 use App\Model\Entity\RssDomain;
 use App\View\AppView;
+use Cake\ORM\ResultSet;
+use Commentable\Model\Entity\Comment;
 
 $this->extend('/Base/view');
 $this->assign('title', $rssDomain->name);
@@ -83,7 +86,13 @@ $this->assign('title', $rssDomain->name);
                 $this->Paginator->sort('last_fetch'),
             ]
         ]) ?>
-
-
     <?php endif; ?>
 </div>
+
+<section>
+    <h3>Comment</h3>
+    <?= $this->Comment->renderForm('RssDomains', $rssDomain->id) ?>
+</section>
+<section class="pt-3">
+    <?= $this->Comment->renderComments('RssDomains', $rssDomain->id) ?>
+</section>

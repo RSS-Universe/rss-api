@@ -10,6 +10,7 @@ use Cake\ORM\Behavior\TimestampBehavior;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Commentable\Model\Behavior\CommentableBehavior;
 
 /**
  * RssDomains Model
@@ -27,6 +28,7 @@ use Cake\Validation\Validator;
  * @method RssDomain findOrCreate($search, callable $callback = null, $options = [])
  *
  * @mixin TimestampBehavior
+ * @mixin CommentableBehavior
  */
 class RssDomainsTable extends Table
 {
@@ -45,6 +47,7 @@ class RssDomainsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Commentable.Commentable');
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
