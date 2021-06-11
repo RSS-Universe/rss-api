@@ -20,13 +20,6 @@ $this->assign('title', $domainFeed->name);
             <td><?= h($domainFeed->id) ?></td>
         </tr>
         <tr>
-            <th scope="row"><?= __('Active') ?></th>
-            <td>
-                <?= $this->ActiveIndicator->render($domainFeed->is_active) ?>
-                <?= $domainFeed->is_active ? 'Active' : 'Not Active' ?>
-            </td>
-        </tr>
-        <tr>
             <th scope="row"><?= __('Rss Domain') ?></th>
             <td><?= $domainFeed->has('rss_domain') ? $this->Html->link($domainFeed->rss_domain->name, ['controller' => 'RssDomains', 'action' => 'view', $domainFeed->rss_domain->id]) : '' ?></td>
         </tr>
@@ -84,10 +77,3 @@ $this->assign('title', $domainFeed->name);
 
     <?php endif; ?>
 </div>
-<section>
-    <h3>Comment</h3>
-    <?= $this->Comment->renderForm('DomainFeeds', $domainFeed->id) ?>
-</section>
-<section class="pt-3">
-    <?= $this->Comment->renderListComments('DomainFeeds', $domainFeed->id) ?>
-</section>

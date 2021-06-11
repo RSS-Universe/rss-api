@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Test\TestCase\View\Helper;
 
 use App\View\Helper\ModalHelper;
@@ -14,7 +13,7 @@ class ModalHelperTest extends TestCase
     /**
      * Test subject
      *
-     * @var ModalHelper
+     * @var \App\View\Helper\ModalHelper
      */
     public $Modal;
 

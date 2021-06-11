@@ -38,8 +38,7 @@
             "App\\": "src/",
             "TypeScript\\": "./plugins/TypeScript/src/",
             "AuthUserStore\\": "./plugins/AuthUserStore/src/",
-            "UserAudit\\": "./plugins/UserAudit/src/",
-            "Commentable\\": "./plugins/Commentable/src/"
+            "UserAudit\\": "./plugins/UserAudit/src/"
         }
     },
     "autoload-dev": {
@@ -48,8 +47,7 @@
             "Cake\\Test\\": "vendor/cakephp/cakephp/tests/",
             "TypeScript\\Test\\": "./plugins/TypeScript/tests/",
             "AuthUserStore\\Test\\": "./plugins/AuthUserStore/tests/",
-            "UserAudit\\Test\\": "./plugins/UserAudit/tests/",
-            "Commentable\\Test\\": "./plugins/Commentable/tests/"
+            "UserAudit\\Test\\": "./plugins/UserAudit/tests/"
         }
     },
     "scripts": {

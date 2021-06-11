@@ -18,7 +18,6 @@ use App\View\Helper;
 use BootstrapUI\View\Helper as BootstrapUIHelper;
 use BootstrapUI\View\UIViewTrait;
 use Cake\View\View;
-use Commentable\View\Helper\CommentHelper;
 
 /**
  * Application View
@@ -30,7 +29,6 @@ use Commentable\View\Helper\CommentHelper;
  * @property Helper\AuthHelper $Auth
  * @property Helper\NavLinksHelper $NavLinks
  * @property Helper\ActiveIndicatorHelper $ActiveIndicator
- * @property Helper\GravatarHelper $Gravatar
  * @property Helper\ModalHelper $Modal
  *
  * @property BootstrapUIHelper\HtmlHelper $Html
@@ -38,8 +36,6 @@ use Commentable\View\Helper\CommentHelper;
  * @property BootstrapUIHelper\FlashHelper $Flash
  * @property BootstrapUIHelper\PaginatorHelper $Paginator
  * @property BootstrapUIHelper\BreadcrumbsHelper $Breadcrumbs
- *
- * @property CommentHelper $Comment
  */
 class AppView extends View
 {
@@ -62,8 +58,6 @@ class AppView extends View
         $this->loadHelper('Auth');
         $this->loadHelper('NavLinks');
         $this->loadHelper('ActiveIndicator');
-        $this->loadHelper('Gravatar');
-        $this->loadHelper('Commentable.Comment');
         $this->loadHelper('Modal');
     }
 }

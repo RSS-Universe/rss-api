@@ -47,7 +47,6 @@ class DomainFeedsTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
-        $this->addBehavior('Commentable.Commentable');
         $this->addBehavior('CounterCache', [
             'RssDomains' => ['feed_count']
         ]);

@@ -44,9 +44,4 @@ class RssDomain extends Entity
         'user' => true,
         'domain_feeds' => true,
     ];
-
-    public function _getIsActive($is_active): bool
-    {
-        return !!$is_active;
-    }
 }
