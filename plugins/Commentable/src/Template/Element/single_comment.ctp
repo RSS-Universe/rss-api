@@ -21,17 +21,13 @@ use Commentable\Model\Entity\Comment;
                 ]) ?>
             </div>
             <div class="row">
-                <div class="btn-group mr-2 btn-group-vertical" role="group"
+                <div class="btn-group mr-2 btn-group-vertical btn-block" role="group"
                      aria-label="Comment Voting Controls">
-                    <button type="button" class="btn btn-success">
-                        <?= $this->Html->icon('thumbs-up') ?>
-                    </button>
+                    <?= $this->Comment->upVoteLink($comment->id) ?>
                     <button type="button" class="btn btn-primary disabled">
-                        -896
+                        <?= number_format($comment->vote_score) ?>
                     </button>
-                    <button type="button" class="btn btn-danger">
-                        <?= $this->Html->icon('thumbs-down') ?>
-                    </button>
+                    <?= $this->Comment->downVoteLink($comment->id) ?>
                 </div>
             </div>
         </div>
@@ -49,7 +45,7 @@ use Commentable\Model\Entity\Comment;
                 <?= $this->Text->autoParagraph($this->Text->stripLinks($comment->comment)) ?>
             </section>
             <? if ($comment->children) : ?>
-                <?= $this->Comment->renderCommentsList($comment->children) ?>
+                <?= $this->Comment->renderComments($comment->children) ?>
             <? endif; ?>
         </div>
     </div>

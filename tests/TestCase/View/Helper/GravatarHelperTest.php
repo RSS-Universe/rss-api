@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Test\TestCase\View\Helper;
 
 use App\View\Helper\GravatarHelper;
@@ -13,7 +14,7 @@ class GravatarHelperTest extends TestCase
     /**
      * Test subject
      *
-     * @var \App\View\Helper\GravatarHelper
+     * @var GravatarHelper
      */
     public $Gravatar;
 

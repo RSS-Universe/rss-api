@@ -52,8 +52,7 @@ class CommentsController extends AppController
         ];
         $reply = $this->Comments->newEntity($defaults);
         if ($this->request->is('post')) {
-            $reply = $this->Comments->patchEntity($reply, $this->getRequest()->getData());
-            $reply = $this->Comments->patchEntity($reply, $defaults);
+            $reply = $this->Comments->patchEntity($reply, array_merge($this->getRequest()->getData(), $defaults));
             if ($this->Comments->save($reply)) {
                 $this->Flash->success('Reply Successful');
                 return $this->redirect($return ?? $this->referer());
@@ -63,4 +62,35 @@ class CommentsController extends AppController
         }
         $this->set(compact('comment', 'reply'));
     }
+
+    public function upvote(string $comment_id)
+    {
+        $return = $this->getRequest()->getQuery('return');
+        $vote = $this->Comments->CommentVotes->saveVote(AuthUserStore::getUser(), $comment_id, true);
+
+        if ($vote === true) {
+            $this->Flash->success('Up Vote Successful');
+        } elseif ($vote === false) {
+            $this->Flash->error('Unable to save vote');
+        } else {
+            $this->Flash->error('Can only vote once');
+        }
+        return $this->redirect($return ?? $this->referer());
+    }
+
+    public function downvote(string $comment_id)
+    {
+        $return = $this->getRequest()->getQuery('return');
+        $vote = $this->Comments->CommentVotes->saveVote(AuthUserStore::getUser(), $comment_id, false);
+
+        if ($vote === true) {
+            $this->Flash->success('Down Vote Successful');
+        } elseif ($vote === false) {
+            $this->Flash->error('Unable to save vote');
+        } else {
+            $this->Flash->error('Can only vote once');
+        }
+        return $this->redirect($return ?? $this->referer());
+    }
+
 }

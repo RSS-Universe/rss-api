@@ -40,7 +40,7 @@ class CommentHelper extends Helper
         );
     }
 
-    public function renderComments(
+    public function renderListComments(
         string $model_name,
         string $model_identifier,
         ?string $element_path = null
@@ -52,7 +52,7 @@ class CommentHelper extends Helper
             throw new Exception("The model '{$model_name}' does not have the 'Commentable.Commentable' behavior");
         }
         $comments = $table->getComments($model_identifier);
-        return $this->renderCommentsList($comments, $element_path);
+        return $this->renderComments($comments, $element_path);
     }
 
     /**
@@ -60,7 +60,7 @@ class CommentHelper extends Helper
      * @param string|null $element_path
      * @return string
      */
-    public function renderCommentsList($comments, ?string $element_path = null): string
+    public function renderComments($comments, ?string $element_path = null): string
     {
         $element_path = $element_path ?? $this->getConfig('list_element_path');
         return $this->getView()->element($element_path, compact('comments'));
@@ -78,21 +78,12 @@ class CommentHelper extends Helper
             throw new Exception("The model '{$model_name}' does not have the 'Commentable.Commentable' behavior");
         }
         $comments = $table->getComments($model_identifier)->find('threaded');
-        return $this->renderCommentsList($comments, $element_path);
+        return $this->renderComments($comments, $element_path);
     }
 
     public function replyButton(string $comment_id): string
     {
-        $uri = $this->replyUrl($comment_id);
-        $title = $this->Html->icon('reply') . 'reply';
-        return $this->Modal->ajaxModalLink($uri, $title, [
-            'class' => 'btn btn-sm btn-primary'
-        ]);
-    }
-
-    public function replyUrl(string $comment_id): string
-    {
-        return $this->Url->build([
+        $uri = $this->Url->build([
             'plugin' => 'commentable',
             'controller' => 'Comments',
             'action' => 'replyTo',
@@ -101,6 +92,39 @@ class CommentHelper extends Helper
                 'return' => (string)$this->getView()->getRequest()->getUri()
             ]
         ]);
+
+        $title = $this->Html->icon('reply') . 'reply';
+        return $this->Modal->ajaxModalLink($uri, $title, [
+            'class' => 'btn btn-sm btn-primary'
+        ], true);
     }
 
+    public function upVoteLink(string $comment_id): string
+    {
+        return $this->voteLink($comment_id, true);
+    }
+
+    protected function voteLink(string $comment_id, bool $is_upvote): string
+    {
+        $uri = $this->Url->build([
+            'plugin' => 'commentable',
+            'controller' => 'Comments',
+            'action' => $is_upvote ? 'upvote' : 'downvote',
+            $comment_id,
+            '?' => [
+                'return' => (string)$this->getView()->getRequest()->getUri()
+            ]
+        ]);
+
+        $title = $this->Html->icon($is_upvote ? 'thumbs-up' : 'thumbs-down');
+        return $this->Html->link($title, $uri, [
+            'class' => 'btn btn-sm btn-' . ($is_upvote ? 'success' : 'danger'),
+            'escape' => false,
+        ]);
+    }
+
+    public function downVoteLink(string $comment_id): string
+    {
+        return $this->voteLink($comment_id, false);
+    }
 }

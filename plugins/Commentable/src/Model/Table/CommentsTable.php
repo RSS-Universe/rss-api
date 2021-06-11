@@ -18,6 +18,7 @@ use Commentable\Model\Entity\Comment;
  *
  * @property UsersTable&BelongsTo $Users
  * @property CommentsTable&BelongsTo $ParentComments
+ * @property CommentVotesTable&HasMany $CommentVotes
  * @property CommentsTable&HasMany $ChildComments
  *
  * @method Comment get($primaryKey, $options = [])
@@ -60,6 +61,10 @@ class CommentsTable extends Table
             'className' => 'Commentable.Comments',
             'foreignKey' => 'parent_id',
         ]);
+        $this->hasMany('CommentVotes', [
+            'foreignKey' => 'comment_id',
+            'className' => 'Commentable.CommentVotes',
+        ]);
         $this->hasMany('ChildComments', [
             'className' => 'Commentable.Comments',
             'foreignKey' => 'parent_id',
@@ -90,7 +95,16 @@ class CommentsTable extends Table
 
         $validator
             ->scalar('comment')
+            ->requirePresence('comment', 'create')
             ->notEmptyString('comment');
+
+        $validator
+            ->nonNegativeInteger('vote_positive')
+            ->allowEmptyString('vote_positive');
+
+        $validator
+            ->nonNegativeInteger('vote_count')
+            ->allowEmptyString('vote_count');
 
         return $validator;
     }

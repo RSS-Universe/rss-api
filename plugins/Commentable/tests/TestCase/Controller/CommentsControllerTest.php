@@ -21,7 +21,6 @@ class CommentsControllerTest extends TestCase
      */
     public $fixtures = [
         'plugin.Commentable.Comments',
-        'plugin.Commentable.Users',
     ];
 
     /**

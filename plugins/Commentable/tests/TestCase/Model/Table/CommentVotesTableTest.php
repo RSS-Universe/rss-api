@@ -4,19 +4,19 @@ namespace Commentable\Test\TestCase\Model\Table;
 
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
-use Commentable\Model\Table\CommentsTable;
+use Commentable\Model\Table\CommentVotesTable;
 
 /**
- * Commentable\Model\Table\CommentsTable Test Case
+ * Commentable\Model\Table\CommentVotesTable Test Case
  */
-class CommentsTableTest extends TestCase
+class CommentVotesTableTest extends TestCase
 {
     /**
      * Test subject
      *
-     * @var CommentsTable
+     * @var CommentVotesTable
      */
-    public $Comments;
+    public $CommentVotes;
 
     /**
      * Fixtures
@@ -24,9 +24,9 @@ class CommentsTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'plugin.Commentable.Comments',
-        'plugin.Commentable.Users',
         'plugin.Commentable.CommentVotes',
+        'plugin.Commentable.Users',
+        'plugin.Commentable.Comments',
     ];
 
     /**
@@ -37,8 +37,8 @@ class CommentsTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::getTableLocator()->exists('Comments') ? [] : ['className' => CommentsTable::class];
-        $this->Comments = TableRegistry::getTableLocator()->get('Comments', $config);
+        $config = TableRegistry::getTableLocator()->exists('CommentVotes') ? [] : ['className' => CommentVotesTable::class];
+        $this->CommentVotes = TableRegistry::getTableLocator()->get('CommentVotes', $config);
     }
 
     /**
@@ -48,7 +48,7 @@ class CommentsTableTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Comments);
+        unset($this->CommentVotes);
 
         parent::tearDown();
     }

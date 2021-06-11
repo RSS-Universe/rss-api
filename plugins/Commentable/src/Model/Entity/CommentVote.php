@@ -1,27 +1,25 @@
 <?php
 
-namespace App\Model\Entity;
+namespace Commentable\Model\Entity;
 
+use App\Model\Entity\User;
 use Cake\I18n\FrozenTime;
 use Cake\ORM\Entity;
 
 /**
- * RssDomain Entity
+ * CommentVote Entity
  *
  * @property string $id
- * @property bool|null $is_active
  * @property int $user_id
- * @property string $name
- * @property string $url
- * @property string|null $description
- * @property int $feed_count
+ * @property string $comment_id
+ * @property bool $is_positive
  * @property FrozenTime|null $created
  * @property FrozenTime|null $modified
  *
  * @property User $user
- * @property DomainFeed[] $domain_feeds
+ * @property Comment $comment
  */
-class RssDomain extends Entity
+class CommentVote extends Entity
 {
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
@@ -33,20 +31,12 @@ class RssDomain extends Entity
      * @var array
      */
     protected $_accessible = [
-        'is_active' => true,
         'user_id' => true,
-        'name' => true,
-        'url' => true,
-        'description' => true,
-        'feed_count' => true,
+        'comment_id' => true,
+        'is_positive' => true,
         'created' => true,
         'modified' => true,
         'user' => true,
-        'domain_feeds' => true,
+        'comment' => true,
     ];
-
-    public function _getIsActive($is_active): bool
-    {
-        return !!$is_active;
-    }
 }
