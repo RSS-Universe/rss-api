@@ -8,13 +8,16 @@ help: ## Help menu
 start: ## starts docker compose
 	docker-compose --env-file .env -f ./docker/docker-compose.yml up
 
+build: ## starts docker compose
+	docker-compose --env-file .env -f ./docker/docker-compose.yml build
+
 restart: ## starts docker compose
 	docker-compose --env-file .env -f ./docker/docker-compose.yml restart
 
 stop: ## stops all containers
 	docker-compose --env-file .env -f ./docker/docker-compose.yml stop
 
-ssh: ## connect to fpm container
+ssh-fpm: ## connect to fpm container
 	docker exec -it $(APP_NAME)-fpm ash
 
 composer-optimized: ## runs an optimized no-dev composer install

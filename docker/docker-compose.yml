@@ -13,8 +13,10 @@ services:
       - fpm
 
   fpm:
-    image: angelxmoreno/php7-fpm-alpine-dev
     container_name: ${APP_NAME}-fpm
+    build:
+      context: .
+      dockerfile: ./fpm/Dockerfile
     volumes:
       - ../:/var/www/html:delegated
       - ./fpm/php-ini-overrides.ini:/etc/php/7.1/fpm/conf.d/99-overrides.ini
