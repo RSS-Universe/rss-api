@@ -1,22 +1,21 @@
 <?php
 
-namespace App\Test\TestCase\View\Helper;
+namespace Commentable\Test\TestCase\Model\Behavior;
 
-use App\View\Helper\ModalHelper;
 use Cake\TestSuite\TestCase;
-use Cake\View\View;
+use Commentable\Model\Behavior\CommentableBehavior;
 
 /**
- * App\View\Helper\ModalHelper Test Case
+ * Commentable\Model\Behavior\CommentableBehavior Test Case
  */
-class ModalHelperTest extends TestCase
+class CommentableBehaviorTest extends TestCase
 {
     /**
      * Test subject
      *
-     * @var ModalHelper
+     * @var CommentableBehavior
      */
-    public $Modal;
+    public $Commentable;
 
     /**
      * setUp method
@@ -26,8 +25,7 @@ class ModalHelperTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $view = new View();
-        $this->Modal = new ModalHelper($view);
+        $this->Commentable = new CommentableBehavior();
     }
 
     /**
@@ -37,7 +35,7 @@ class ModalHelperTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Modal);
+        unset($this->Commentable);
 
         parent::tearDown();
     }

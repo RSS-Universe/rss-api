@@ -36,6 +36,8 @@ class Application extends BaseApplication
      */
     public function bootstrap()
     {
+        $this->addPlugin('Commentable');
+
         $this->addPlugin('Muffin/Slug');
 
         $this->addPlugin('BootstrapUI');

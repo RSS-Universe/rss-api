@@ -64,11 +64,14 @@ class ModalHelper extends Helper
 
     }
 
-    public function ajaxModalLink(string $uri, $title, array $options = []): string
+    public function ajaxModalLink(string $uri, $title, array $options = [], bool $auth_check = false): string
     {
         $options['type'] = 'button';
         $options['data-role'] = 'ajaxOpener';
         $options['data-uri'] = $uri;
+        if ($auth_check) {
+            $options['data-auth'] = 'true';
+        }
         return $this->Form->button($title, $options);
     }
 }

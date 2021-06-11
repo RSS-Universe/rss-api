@@ -2,21 +2,21 @@
 
 namespace App\Test\TestCase\View\Helper;
 
-use App\View\Helper\ModalHelper;
+use App\View\Helper\GravatarHelper;
 use Cake\TestSuite\TestCase;
 use Cake\View\View;
 
 /**
- * App\View\Helper\ModalHelper Test Case
+ * App\View\Helper\GravatarHelper Test Case
  */
-class ModalHelperTest extends TestCase
+class GravatarHelperTest extends TestCase
 {
     /**
      * Test subject
      *
-     * @var ModalHelper
+     * @var GravatarHelper
      */
-    public $Modal;
+    public $Gravatar;
 
     /**
      * setUp method
@@ -27,7 +27,7 @@ class ModalHelperTest extends TestCase
     {
         parent::setUp();
         $view = new View();
-        $this->Modal = new ModalHelper($view);
+        $this->Gravatar = new GravatarHelper($view);
     }
 
     /**
@@ -37,7 +37,7 @@ class ModalHelperTest extends TestCase
      */
     public function tearDown()
     {
-        unset($this->Modal);
+        unset($this->Gravatar);
 
         parent::tearDown();
     }
